@@ -1,477 +1,411 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth bg-[#141414]">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sharisharrr.dev | Game Programmer & Systems Engineer</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Sharisharrr - Portfolio</title>
+    <!-- Google Fonts Import -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
-                    },
-                    colors: {
-                        base: '#141414',
-                    }
-                }
-            }
-        }
-    </script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&family=League+Spartan:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* Base Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #141414;
-            color: #a3a3a3; 
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #121212;
             font-family: 'Inter', sans-serif;
-            cursor: none; 
+            color: #ffffff;
+            padding: 5rem 1.5rem;
+            position: relative;
             overflow-x: hidden;
         }
 
-        a, button, .tilt-card, .interactable {
-            cursor: none;
+        /* 
+         * Animated Background Orbs (Fixed position for scrolling)
+         */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.5;
+            z-index: 0;
+            animation: drift 20s infinite alternate ease-in-out;
+            pointer-events: none;
         }
 
-        ::selection {
-            background-color: #333333;
+        .orb-orange {
+            background-color: #ea580c;
+            width: 400px;
+            height: 400px;
+            top: 5%;
+            left: 20%;
+            animation-duration: 24s;
+        }
+
+        .orb-blue {
+            background-color: #2563eb;
+            width: 450px;
+            height: 450px;
+            bottom: 10%;
+            right: 15%;
+            animation-duration: 28s;
+            animation-delay: -5s;
+        }
+
+        .orb-purple {
+            background-color: #9333ea;
+            width: 350px;
+            height: 350px;
+            top: 40%;
+            right: 35%;
+            animation-duration: 22s;
+            animation-delay: -10s;
+        }
+
+        .orb-magenta {
+            background-color: #d946ef;
+            width: 400px;
+            height: 400px;
+            bottom: 20%;
+            left: 25%;
+            animation-duration: 26s;
+            animation-delay: -15s;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(100px, -80px) scale(1.1); }
+            66% { transform: translate(-80px, 120px) scale(0.9); }
+            100% { transform: translate(-40px, -40px) scale(1.05); }
+        }
+
+        /* 
+         * Layout Container
+         */
+        .content-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem; /* Consistent spacing between cards */
+            width: 100%;
+            max-width: 750px;
+        }
+
+        /* Subtle Vertical Connecting Line */
+        .content-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transform: translateX(-50%);
+            z-index: -1;
+        }
+
+        /* 
+         * Glassmorphism Cards
+         */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-card {
+            text-align: center;
+        }
+
+        /* 
+         * Typography & Sections
+         */
+        h1 {
+            font-family: 'League Spartan', sans-serif;
+            font-size: 3.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        h2.tagline {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #c4c4c4; /* Slight grey */
+        }
+
+        h3 {
+            font-family: 'League Spartan', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.75rem;
+        }
+
+        h3.category-title {
+            font-size: 1.6rem;
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            color: #e0e0e0;
+        }
+
+        p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 300;
+            line-height: 1.8;
             color: #ffffff;
         }
 
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #141414; }
-        ::-webkit-scrollbar-thumb { background: #333333; }
-
-        @keyframes fadeInUp {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+        ul {
+            list-style-type: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
         }
 
-        .animate-fade-in {
-            /* Using 'both' ensures it takes the 0% opacity styling BEFORE the delay finishes, preventing it from showing early or getting stuck */
-            animation: fadeInUp 0.8s ease-out both;
-        }
-
-        .cursor-blink {
-            display: inline-block;
-            width: 2px;
-            height: 1em;
-            background-color: #ffffff;
-            vertical-align: text-bottom;
-            margin-left: 4px;
-            animation: blink 1s step-end infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        .tilt-card {
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
-        .tilt-card-leave {
-            transition: transform 0.5s ease-out, border-color 0.3s ease;
-        }
-        .tilt-content {
-            transform: translateZ(30px);
-        }
-
-        .flip-card {
-            perspective: 1000px;
-        }
-        .flip-card-inner {
+        ul li {
             position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-        .flip-card:hover .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 0.5rem;
-        }
-        .flip-card-back {
-            transform: rotateY(180deg);
+            padding-left: 1.8rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: #ffffff;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), color 0.3s ease;
+            transform-origin: left center;
+            cursor: default;
         }
 
-        @media (pointer: coarse) {
-            body, a, button, .tilt-card, .interactable {
-                cursor: auto !important;
+        ul li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #c4c4c4;
+            font-size: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Interactive Hover Effects for Lists */
+        ul li:hover {
+            transform: scale(1.02) translateX(8px);
+            color: #f3f4f6;
+        }
+
+        ul li:hover::before {
+            color: #ffffff;
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        /* 
+         * Linked Lists & Tags
+         */
+        .linked-list {
+            gap: 1.2rem;
+        }
+
+        .linked-list li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-top: 0.2rem;
+            padding-bottom: 0.2rem;
+        }
+
+        .item-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .item-link:hover {
+            color: #c4c4c4;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .item-tag {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.8rem;
+            margin-left: auto;
+        }
+
+        /* 
+         * Skill Pills
+         */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .skill-pill {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 0.6rem 1.2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #c4c4c4;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            cursor: default;
+        }
+
+        .skill-pill:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .glass-card {
+                padding: 2rem;
             }
-            #cursor-dot, #cursor-glow, #spotlight {
-                display: none !important;
+            h1 {
+                font-size: 2.8rem;
             }
-            .flip-card.flipped .flip-card-inner {
-                transform: rotateY(180deg);
+            .orb {
+                filter: blur(80px);
+                opacity: 0.4;
             }
         }
     </style>
 </head>
-<body class="antialiased selection:bg-neutral-800 selection:text-white relative min-h-screen">
+<body>
 
-    <div id="spotlight" class="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300"></div>
+    <!-- 4 Animated Background Orbs (Fixed to viewport) -->
+    <div class="orb orb-orange"></div>
+    <div class="orb orb-blue"></div>
+    <div class="orb orb-purple"></div>
+    <div class="orb orb-magenta"></div>
 
-    <div id="cursor-dot" class="fixed w-1.5 h-1.5 bg-white rounded-full pointer-events-none z-[9999] transform -translate-x-1/2 -translate-y-1/2 mix-blend-difference transition-transform duration-100 ease-out"></div>
-    <div id="cursor-glow" class="fixed w-10 h-10 border border-neutral-600 rounded-full pointer-events-none z-[9998] transform -translate-x-1/2 -translate-y-1/2 transition-transform duration-300 ease-out opacity-60"></div>
-
-    <div class="max-w-5xl mx-auto px-6 sm:px-12 w-full relative z-10">
+    <!-- Main Scrollable Content -->
+    <div class="content-container">
         
-        <nav class="w-full py-12 flex justify-between items-center animate-fade-in" style="animation-delay: 0.1s;">
-            <div class="flex items-center gap-4">
-                <!-- Minimalist Chakra Tilak Shank SVG -->
-                <svg width="48" height="18" viewBox="0 0 64 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-500">
-                    <!-- Chakra (Discus) - Left -->
-                    <circle cx="14" cy="12" r="7" />
-                    <path d="M14 5v14" />
-                    <path d="M7 12h14" />
-                    <path d="M9 7l10 10" />
-                    <path d="M9 17l10-10" />
-                    
-                    <!-- Tilak - Center -->
-                    <path d="M26 4v10c0 3.314 2.686 6 6 6s6-2.686 6-6V4" />
-                    <path d="M32 6v10" />
-                    <path d="M32 21v1" stroke-width="2.5" />
-                    
-                    <!-- Shank (Conch) - Right -->
-                    <path d="M50 6c3 0 4 3 4 6s-2 8-5 10c-3-2-5-7-5-10s1-6 4-6z" />
-                    <path d="M48 9c1 1 2 2 2 4" />
-                    <path d="M46 12c1 1 2 3 1 5" />
-                </svg>
-                
-                <div class="text-white font-semibold tracking-widest text-xs sm:text-sm uppercase flex items-baseline">
-                    sharisharrr<span class="text-neutral-500 text-[10px] sm:text-xs normal-case tracking-normal ml-0.5 font-mono">.dev</span>
-                </div>
-            </div>
-            
-            <div class="flex gap-8 text-xs font-mono uppercase tracking-widest text-neutral-500 hidden sm:flex">
-                <a href="#projects" class="interactable hover:text-white transition-colors duration-300">Projects</a>
-                <a href="#systems" class="interactable hover:text-white transition-colors duration-300">Systems</a>
-            </div>
-        </nav>
-
-        <main>
-            <section class="min-h-[60vh] flex flex-col justify-center py-16">
-                <div class="max-w-3xl">
-                    <h1 class="text-3xl sm:text-5xl md:text-6xl font-light text-white tracking-tight leading-[1.2] min-h-[1.2em]">
-                        <span id="typewriter-text"></span><span class="cursor-blink"></span>
-                    </h1>
-                    <!-- This paragraph previously had opacity issues. Fixed via animation-fill-mode: both -->
-                    <p class="mt-8 text-neutral-400 text-sm sm:text-base max-w-xl leading-relaxed animate-fade-in" style="animation-delay: 1.5s;">
-                        Architecting robust game systems, developing scalable gameplay mechanics, and engineering performance-driven solutions.
-                    </p>
-                </div>
-            </section>
-
-            <section id="about" class="py-24 border-t border-neutral-800 animate-fade-in" style="animation-delay: 0.2s;">
-                <div class="flex items-center gap-4 mb-16">
-                    <span class="w-12 h-[1px] bg-neutral-800"></span>
-                    <h2 class="text-xs font-mono uppercase tracking-widest text-neutral-400">About & Identity</h2>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                    
-                    <div class="interactable border border-neutral-800 bg-neutral-900/40 p-8 rounded-xl relative">
-                        <div class="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none rounded-xl"></div>
-                        <p class="text-white text-sm sm:text-base leading-relaxed mb-6 relative z-10">
-                            I am a specialized systems engineer and game programmer with deep expertise in <strong class="text-white font-medium">C++</strong>. My primary focus lies in bridging the gap between low-level architecture and high-level gameplay.
-                        </p>
-                        <p class="text-white text-sm sm:text-base leading-relaxed relative z-10">
-                            Operating exclusively within <strong class="text-white font-medium">Unreal Engine</strong>, I design highly modular, decoupled systems that scale efficiently and empower creative teams to iterate without friction.
-                        </p>
-                    </div>
-
-                    <div class="flex justify-center lg:justify-end">
-                        <div class="flip-card interactable w-full max-w-[400px] h-[220px] sm:h-[240px]">
-                            <div class="flip-card-inner rounded-xl shadow-2xl shadow-black/50">
-                                
-                                <div class="flip-card-front absolute inset-0 border border-neutral-800 bg-neutral-900/50 flex flex-col justify-center items-center group overflow-hidden">
-                                    <div class="absolute inset-0 bg-gradient-to-br from-neutral-800/20 to-transparent pointer-events-none"></div>
-                                    <div class="text-white font-mono text-[10px] tracking-widest uppercase opacity-60 flex items-center gap-2 group-hover:opacity-100 transition-opacity">
-                                        <div class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></div>
-                                        Hover to reveal card
-                                    </div>
-                                </div>
-                                
-                                <div class="flip-card-back absolute inset-0 border border-neutral-500 bg-[#141414] flex flex-col justify-center items-center p-8 overflow-hidden">
-                                    <div class="absolute -right-16 -top-16 w-48 h-48 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
-                                    
-                                    <h3 class="text-xl sm:text-2xl text-white font-medium tracking-tight mb-2 z-10">sharisharrr</h3>
-                                    <p class="text-[10px] text-neutral-400 font-mono tracking-widest uppercase z-10 text-center">Game Programmer & Systems Engineer</p>
-                                    
-                                    <div class="w-8 h-[1px] bg-neutral-700 my-6 z-10"></div>
-                                    
-                                    <div class="flex gap-5 z-10">
-                                        <span class="text-[10px] text-neutral-500 font-mono tracking-wider uppercase">C++ / UE5</span>
-                                        <span class="text-[10px] text-neutral-500 font-mono tracking-wider uppercase">Blueprints</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="projects" class="py-24 border-t border-neutral-800 animate-fade-in" style="animation-delay: 0.3s;">
-                <div class="flex items-center gap-4 mb-16">
-                    <span class="w-12 h-[1px] bg-neutral-800"></span>
-                    <h2 class="text-xs font-mono uppercase tracking-widest text-neutral-400">Selected Works</h2>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    
-                    <div class="tilt-card interactable relative group rounded-lg border border-neutral-800 bg-[#141414] p-8 hover:border-neutral-500 hover:bg-neutral-900/30 transition-colors">
-                        <div class="tilt-content">
-                            <h3 class="text-lg font-medium text-white mb-4 group-hover:text-gray-100 transition-colors">Project Experimento</h3>
-                            <p class="text-sm text-neutral-500 leading-relaxed mb-8">
-                                2.5D co-op platformer survival horror. Engineered core networking synchronization and cooperative mechanics.
-                            </p>
-                            <span class="text-[10px] font-mono text-neutral-600 uppercase tracking-widest border border-neutral-800 rounded-full px-3 py-1">Unreal / C++</span>
-                        </div>
-                    </div>
-
-                    <div class="tilt-card interactable relative group rounded-lg border border-neutral-800 bg-[#141414] p-8 hover:border-neutral-500 hover:bg-neutral-900/30 transition-colors">
-                        <div class="tilt-content">
-                            <h3 class="text-lg font-medium text-white mb-4 group-hover:text-gray-100 transition-colors">Narrative Driving</h3>
-                            <p class="text-sm text-neutral-500 leading-relaxed mb-8">
-                                72-hour game jam prototype. Built the vehicle physics controller and narrative event trigger architecture.
-                            </p>
-                            <span class="text-[10px] font-mono text-neutral-600 uppercase tracking-widest border border-neutral-800 rounded-full px-3 py-1">Prototyping</span>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-            <section id="systems" class="py-24 border-t border-neutral-800 animate-fade-in" style="animation-delay: 0.5s;">
-                <div class="flex items-center gap-4 mb-16">
-                    <span class="w-12 h-[1px] bg-neutral-800"></span>
-                    <h2 class="text-xs font-mono uppercase tracking-widest text-neutral-400">Systems Built</h2>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center">
-                    
-                    <div class="md:col-span-5 flex flex-col gap-6 border-l border-neutral-800 pl-6 md:pl-10 relative">
-                        <button class="system-trigger interactable text-left text-lg md:text-xl font-medium text-white transition-all duration-300 transform translate-x-2" data-id="weapons">Modular Weapon Architecture</button>
-                        <button class="system-trigger interactable text-left text-lg md:text-xl font-medium text-neutral-600 hover:text-white transition-all duration-300 transform hover:translate-x-2" data-id="physics">Physics & State Controllers</button>
-                        <button class="system-trigger interactable text-left text-lg md:text-xl font-medium text-neutral-600 hover:text-white transition-all duration-300 transform hover:translate-x-2" data-id="waves">Decoupled Wave Management</button>
-                        <button class="system-trigger interactable text-left text-lg md:text-xl font-medium text-neutral-600 hover:text-white transition-all duration-300 transform hover:translate-x-2" data-id="interactables">Interactive Sequence Logic</button>
-                    </div>
-
-                    <div class="md:col-span-7 h-full flex flex-col justify-center min-h-[180px]">
-                        <div id="system-display" class="transition-opacity duration-300 opacity-100 bg-neutral-900/40 border border-neutral-800 p-8 rounded-xl relative overflow-hidden group">
-                            <div class="absolute inset-0 bg-gradient-to-br from-white/[0.04] to-transparent pointer-events-none"></div>
-                            <p id="system-desc" class="text-sm sm:text-base text-white leading-relaxed mb-8 relative z-10 min-h-[80px]">
-                                Engineered robust weapon handling using decoupled magazine and reserve ammo calculations, dynamic child actor switching, and integrated flashlight mechanics.
-                            </p>
-                            <span id="system-stack" class="text-[10px] font-mono text-white uppercase tracking-widest border border-neutral-600 bg-neutral-800/80 rounded-full px-4 py-1.5 relative z-10 shadow-sm inline-block">
-                                Unreal Engine 5 • C++ • Blueprints
-                            </span>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-            <section id="concepts" class="py-24 border-t border-neutral-800 animate-fade-in" style="animation-delay: 0.7s;">
-                <div class="flex items-center gap-4 mb-12">
-                    <span class="w-12 h-[1px] bg-neutral-800"></span>
-                    <h2 class="text-xs font-mono uppercase tracking-widest text-neutral-400">Core Concepts & Stack</h2>
-                </div>
-
-                <div class="flex flex-wrap gap-4">
-                    <span class="interactable px-5 py-2.5 rounded-full border border-neutral-800 text-neutral-400 text-xs font-mono uppercase hover:border-neutral-400 hover:text-white transition-colors duration-300 cursor-none">Finite State Machines</span>
-                    <span class="interactable px-5 py-2.5 rounded-full border border-neutral-800 text-neutral-400 text-xs font-mono uppercase hover:border-neutral-400 hover:text-white transition-colors duration-300 cursor-none">Observer Pattern</span>
-                    <span class="interactable px-5 py-2.5 rounded-full border border-neutral-800 text-neutral-400 text-xs font-mono uppercase hover:border-neutral-400 hover:text-white transition-colors duration-300 cursor-none">Data-Driven Design</span>
-                    <span class="interactable px-5 py-2.5 rounded-full border border-neutral-800 text-neutral-400 text-xs font-mono uppercase hover:border-neutral-400 hover:text-white transition-colors duration-300 cursor-none">C++</span>
-                    <span class="interactable px-5 py-2.5 rounded-full border border-neutral-800 text-neutral-400 text-xs font-mono uppercase hover:border-neutral-400 hover:text-white transition-colors duration-300 cursor-none">Unreal Engine 5</span>
-                    <span class="interactable px-5 py-2.5 rounded-full border border-neutral-800 text-neutral-400 text-xs font-mono uppercase hover:border-neutral-400 hover:text-white transition-colors duration-300 cursor-none">Blueprints</span>
-                </div>
-            </section>
-
-        </main>
-
-        <footer class="py-12 border-t border-neutral-800 flex flex-col md:flex-row justify-between items-center gap-6 animate-fade-in" style="animation-delay: 0.8s;">
-            <p class="text-[10px] font-mono text-neutral-600 uppercase tracking-widest">
-                © 2026 // sharisharrr.dev
+        <!-- Hero Card -->
+        <div class="glass-card hero-card">
+            <h1>Sharisharrr</h1>
+            <h2 class="tagline">Game Programmer & Systems Engineer</h2>
+        </div>
+        
+        <!-- About Me Card -->
+        <div class="glass-card">
+            <h3>About Me</h3>
+            <p>
+                I am a systems engineer specializing in gameplay mechanics and game architecture. With expertise in C++, Unreal Engine, and Unity, I focus on building robust systems, intricate puzzle mechanics, and dynamic player controls. Whether developing 2D mechanics or exploring first-person level structures, I bring theoretical design principles to life through clean, scalable code.
             </p>
-            <div class="flex gap-6 text-[10px] font-mono uppercase tracking-widest text-neutral-500">
-                <a href="#" class="interactable hover:text-white transition-colors">GitHub</a>
-                <a href="#" class="interactable hover:text-white transition-colors">LinkedIn</a>
-                <a href="#" class="interactable hover:text-white transition-colors">Email</a>
+        </div>
+
+        <!-- Projects Card (Merged Games & Cinematics) -->
+        <div class="glass-card">
+            <h3>Projects I Have Completed</h3>
+            
+            <h3 class="category-title">Games</h3>
+            <ul class="linked-list">
+                <li>
+                    <a href="https://wurtz-interactive.itch.io/hoppity-hop" target="_blank" class="item-link">Hoppity-Hop</a>
+                    <span class="skill-pill item-tag">Lead Developer</span>
+                </li>
+                <li>
+                    <a href="https://wurtz-interactive.itch.io/workaround-and-find-out" target="_blank" class="item-link">Work Around and Find Out</a>
+                    <span class="skill-pill item-tag">Lead Developer · Team Jam</span>
+                </li>
+                <li>
+                    <a href="https://sharisharrr.itch.io/handmade-faces" target="_blank" class="item-link">Handmade Faces</a>
+                    <span class="skill-pill item-tag">Lead Developer · Team Jam</span>
+                </li>
+                <li>
+                    <a href="https://sharisharrr.itch.io/how-will-i-tell-her" target="_blank" class="item-link">How Will I Tell Her</a>
+                    <span class="skill-pill item-tag">Everything · Solo Jam</span>
+                </li>
+            </ul>
+
+            <h3 class="category-title" style="margin-top: 2rem;">Cinematics</h3>
+            <ul class="linked-list">
+                <li>
+                    <a href="https://youtu.be/6XK_FutBP8E" target="_blank" class="item-link">Door to the Unknown</a>
+                    <span class="skill-pill item-tag">Space | Blackhole</span>
+                </li>
+                <li>
+                    <a href="https://youtu.be/UVjbv7l_ZW0" target="_blank" class="item-link">First View</a>
+                    <span class="skill-pill item-tag">Space | Earth & Moon</span>
+                </li>
+                <li>
+                    <a href="https://youtu.be/U6vBCC02Dck" target="_blank" class="item-link">kAziranga</a>
+                    <span class="skill-pill item-tag">Natural Formations</span>
+                </li>
+                <li>
+                    <a href="https://youtu.be/HGEkQnr3hA4" target="_blank" class="item-link">Nordic Lands</a>
+                    <span class="skill-pill item-tag">Natural Formations</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Systems Card -->
+        <div class="glass-card">
+            <h3>Systems I Have Built</h3>
+            <ul>
+                <li>Advance locomotion & Procedural Animations System</li>
+                <li>Dynamic Inventory system</li>
+                <li>Custom Dialogue Tool/System</li>
+                <li>Custom Streaming Tool (optimization)</li>
+                <li>Weapon Systems, equipment system</li>
+                <li>Custom Universal Event System Manager (executes, and manages events)</li>
+                <li>AI Agents with Senses</li>
+                <li>Coop Game Controller Tools</li>
+            </ul>
+        </div>
+
+        <!-- Skills Card -->
+        <div class="glass-card">
+            <h3>Skills I Have</h3>
+            <div class="skills-container">
+                <span class="skill-pill">Unreal Engine 5</span>
+                <span class="skill-pill">Blueprints</span>
+                <span class="skill-pill">Data-Driven Design</span>
+                <span class="skill-pill">FSM</span>
+                <span class="skill-pill">Procedural Animations</span>
+                <span class="skill-pill">Design Tools</span>
             </div>
-        </footer>
+        </div>
+
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // --- Spotlight & Custom Cursor Logic ---
-            const cursorDot = document.getElementById('cursor-dot');
-            const cursorGlow = document.getElementById('cursor-glow');
-            const spotlight = document.getElementById('spotlight');
-            
-            let mouseX = window.innerWidth / 2;
-            let mouseY = window.innerHeight / 2;
-            let glowX = mouseX;
-            let glowY = mouseY;
-
-            window.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                
-                // Dot follows exactly
-                cursorDot.style.left = `${mouseX}px`;
-                cursorDot.style.top = `${mouseY}px`;
-
-                // Update spotlight background gradient over solid #141414
-                spotlight.style.background = `radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(255, 255, 255, 0.03), transparent 40%)`;
-            });
-
-            function animateCursor() {
-                const lerpFactor = 0.12; 
-                glowX += (mouseX - glowX) * lerpFactor;
-                glowY += (mouseY - glowY) * lerpFactor;
-                
-                cursorGlow.style.left = `${glowX}px`;
-                cursorGlow.style.top = `${glowY}px`;
-                
-                requestAnimationFrame(animateCursor);
-            }
-            animateCursor();
-
-            // --- Interaction States for Custom Cursor ---
-            const interactables = document.querySelectorAll('a, button, .tilt-card, .interactable');
-            interactables.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    cursorGlow.classList.add('scale-[1.8]', 'bg-neutral-800/40', 'border-neutral-400');
-                    cursorDot.classList.add('scale-150');
-                });
-                el.addEventListener('mouseleave', () => {
-                    cursorGlow.classList.remove('scale-[1.8]', 'bg-neutral-800/40', 'border-neutral-400');
-                    cursorDot.classList.remove('scale-150');
-                });
-            });
-
-            // --- Typewriter Effect ---
-            const heroText = "Game Programmer & Systems Engineer.";
-            const typeTarget = document.getElementById('typewriter-text');
-            let charIndex = 0;
-
-            function typeWriter() {
-                if (!typeTarget) return; 
-                
-                if (charIndex < heroText.length) {
-                    typeTarget.textContent += heroText.charAt(charIndex);
-                    charIndex++;
-                    const typingSpeed = Math.random() * 40 + 30; 
-                    setTimeout(typeWriter, typingSpeed);
-                }
-            }
-            setTimeout(typeWriter, 400); // Slight delay to let page fade in first
-
-            // --- 3D Tilt Cards Logic ---
-            const tiltCards = document.querySelectorAll('.tilt-card');
-            
-            tiltCards.forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    card.classList.remove('tilt-card-leave');
-                    
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    
-                    // Constrain tilt rotation values
-                    const rotateX = ((y - centerY) / centerY) * -8;
-                    const rotateY = ((x - centerX) / centerX) * 8;
-                    
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-                });
-
-                card.addEventListener('mouseleave', () => {
-                    card.classList.add('tilt-card-leave');
-                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-                });
-            });
-
-            // --- Systems Interactive Grid Logic ---
-            const systemsData = {
-                weapons: {
-                    desc: "Engineered robust weapon handling using decoupled magazine and reserve ammo calculations, dynamic child actor switching, and integrated flashlight mechanics.",
-                    stack: "Unreal Engine 5 • C++ • Blueprints"
-                },
-                physics: {
-                    desc: "Developed custom character and vehicle controllers. Implemented rigorous ground checks, precise state detection scoring, and constrained camera follow systems using FSMs.",
-                    stack: "Unreal Engine 5 • C++ • State Machines"
-                },
-                waves: {
-                    desc: "Built scalable enemy wave spawning logic using the Observer pattern, seamlessly integrating dynamic spawning and UI progress tracking.",
-                    stack: "Unreal Engine 5 • C++ • Observer Pattern"
-                },
-                interactables: {
-                    desc: "Programmed sequence-based item collection and environmental interactions, including tapping progress-bar mechanics linked directly to mesh manipulation.",
-                    stack: "Event-Driven • UI Integration"
-                }
-            };
-
-            const systemTriggers = document.querySelectorAll('.system-trigger');
-            const systemDisplay = document.getElementById('system-display');
-            const systemDesc = document.getElementById('system-desc');
-            const systemStack = document.getElementById('system-stack');
-
-            systemTriggers.forEach(trigger => {
-                ['mouseenter', 'click'].forEach(evt => {
-                    trigger.addEventListener(evt, (e) => {
-                        const id = trigger.getAttribute('data-id');
-                        
-                        // Reset styling for all triggers
-                        systemTriggers.forEach(t => {
-                            t.classList.remove('text-white', 'translate-x-2');
-                            t.classList.add('text-neutral-600');
-                        });
-                        
-                        // Apply active styling to hovered/tapped trigger
-                        trigger.classList.remove('text-neutral-600');
-                        trigger.classList.add('text-white', 'translate-x-2');
-
-                        // Fade out current content
-                        systemDisplay.style.opacity = '0';
-                        
-                        // Wait for fade out, update content, fade back in
-                        setTimeout(() => {
-                            systemDesc.textContent = systemsData[id].desc;
-                            systemStack.textContent = systemsData[id].stack;
-                            systemDisplay.style.opacity = '1';
-                        }, 150); 
-                    });
-                });
-            });
-
-            const flipCard = document.querySelector('.flip-card');
-            if (flipCard) {
-                flipCard.addEventListener('click', () => {
-                    flipCard.classList.toggle('flipped');
-                });
-            }
-
-        });
-    </script>
 </body>
 </html>
